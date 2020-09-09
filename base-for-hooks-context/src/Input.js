@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function Input({ secretWord }) {
-  const [currentGuess, setCurrentGuess] = React.useState("");
+  const [currentGuess, setCurrentGuess] = React.useState('');
 
   return (
     <div data-test="component-input">
@@ -19,6 +19,7 @@ function Input({ secretWord }) {
           data-test="submit-button"
           onClick={(evt) => {
             evt.preventDefault();
+            setCurrentGuess('');
           }}
           className="btn btn-primary mb-2"
         >
