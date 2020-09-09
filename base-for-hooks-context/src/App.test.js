@@ -1,9 +1,32 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { mount } from 'enzyme';
+import { findByTestAttr } from '../test/testUtils';
 import App from './App';
+import hookActions from './actions/hookActions';
 
-test('renders learn react link', () => {
-  const { getByText } = render(<App />);
-  const linkElement = getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+const mockGetSecretWord = jest.fn();
+
+/**
+ * Setup function for app component.
+ * @returns { ShallowWrapper }
+ */
+const setup = () => {
+  mockGetSecretWord.mockClear();
+  hookActions.getSecretWord = mockGetSecretWord;
+  return mount(<App />);
+};
+
+test('App renders without error', () => {
+  const wrapper = setup();
+  const component = findByTestAttr(wrapper, 'component-app');
+  expect(component.length).toBe(1);
+});
+
+describe('getSecretWord calls', () => {
+  test('getSecretWord gets called on App mount', () => {
+    setup();
+
+    // check to see if secret word was updated
+    expect(mockGetSecretWord).toHaveBeenCalled();
+  });
 });
